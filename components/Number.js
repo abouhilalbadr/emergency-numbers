@@ -11,7 +11,9 @@ const Number = ({number, index, ...extra}) => {
           height={100}
         />}
         <h2 className="text-white font-medium text-2xl mt-6 mb-4 uppercase">{number.name}</h2>
-        <h3 className={"direction-ltr font-bold text-white " + ((index > 2) ? "text-7xl" : "text-5xl")}>{number.phone}</h3>
+        <h3 className={"direction-ltr font-bold text-white " + ((index > 2) ? "text-7xl" : "text-5xl")}>
+          <a target="_blank" href={"tel:" + number.phone.replace(/\s/g, '')}>{number.phone}</a>
+        </h3>
       </div>
     </div>
   )

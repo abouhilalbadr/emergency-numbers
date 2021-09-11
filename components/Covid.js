@@ -18,7 +18,9 @@ const Covid = ({nv, ay, covid}) => {
           <p className="text-2xl lg:text-3xl my-2">
             {covid}
           </p>
-          <h6 className="direction-ltr text-5xl font-bold text-white">08 01 00 47 47</h6>
+          <h6 className="direction-ltr text-5xl font-bold text-white">
+            <a target="_blank" href="tel:0801004747">08 01 00 47 47</a>
+          </h6>
         </div>
       </div>
     </div>
