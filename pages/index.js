@@ -1,82 +1,63 @@
-import Head from 'next/head'
+import { useEffect } from 'react'
+import { useTranslation } from 'next-i18next'
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations'
 
-export default function Home() {
+import Header from '../components/Header'
+import Number from '../components/Number'
+
+import ip from '../assets/images/ip.png'
+import sos from '../assets/images/sos.png'
+import ca from '../assets/images/ca.png'
+import re from '../assets/images/re.png'
+import amb from '../assets/images/amb.png'
+import gr from '../assets/images/gr.png'
+import pom from '../assets/images/pom.png'
+import Covid from '../components/Covid'
+import Nav from '../components/Nav'
+
+const Homepage = () => {
+  const { t, i18n } = useTranslation('common')
+
+  const links = [
+    {image: ip, name: t('ip'), phone: "05 22 26 20 62", bg: "bg-blue"},
+    {image: sos, name: t('sos'), phone: "05 22 98 98 98", bg: "bg-red"},
+    {image: ca, name: t('ca'), phone: "08 01 00 01 80", bg: "bg-purple"},
+    {image: re, name: t('re'), phone: "160", bg: "bg-lime"},
+    {image: amb, name: t('amb'), phone: "150", bg: "bg-redAmb"},
+    {image: gr, name: t('gr'), phone: "177", bg: "bg-yellow"},
+    {image: gr, name: t('poli'), phone: "190", bg: "bg-green"},
+    {image: pom, name: t('pom'), phone: "150", bg: "bg-redPom"},
+  ]
+
+  useEffect(() => {
+    document.body.dir = i18n.dir();
+  }, [t])
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-        <h1 className="text-6xl font-bold">
-          Welcome to{' '}
-          <a className="text-blue-600" href="https://nextjs.org">
-            Next.js!
-          </a>
-        </h1>
-
-        <p className="mt-3 text-2xl">
-          Get started by editing{' '}
-          <code className="p-3 font-mono text-lg bg-gray-100 rounded-md">
-            pages/index.js
-          </code>
-        </p>
-
-        <div className="flex flex-wrap items-center justify-around max-w-4xl mt-6 sm:w-full">
-          <a
-            href="https://nextjs.org/docs"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Documentation &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Find in-depth information about Next.js features and API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Learn &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Learn about Next.js in an interactive course with quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Examples &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Discover and deploy boilerplate example Next.js projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600"
-          >
-            <h3 className="text-2xl font-bold">Deploy &rarr;</h3>
-            <p className="mt-4 text-xl">
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <>
+      <Header lang={t('langue')} title={t('title')} description={t('description')} />
+      <section className="flex flex-col w-full min-h-screen justify-center items-center py-6 lg:py-8">
+        <div className="container">
+          <div className="m-2 lg:mx-6">
+            <Nav direction={i18n.dir()} title={t('title')} />
+            <Covid nv={t('nv')} ay={t('ay')} covid={t('covid')} />
+          </div>
+          <div className="flex flex-col lg:flex-row flex-wrap">
+            {links.length && links.map((link, index) => (
+              <Number number={link} index={index} key={index} />
+            ))}
+          </div>
+          
         </div>
-      </main>
-
-      <footer className="flex items-center justify-center w-full h-24 border-t">
-        <a
-          className="flex items-center justify-center"
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className="h-4 ml-2" />
-        </a>
-      </footer>
-    </div>
+      </section>
+    </>
   )
 }
+
+export const getStaticProps = async ({ locale }) => ({
+  props: {
+    ...await serverSideTranslations(locale, ['common']),
+  },
+})
+
+export default Homepage
