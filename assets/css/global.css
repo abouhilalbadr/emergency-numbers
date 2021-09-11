@@ -34,6 +34,10 @@ body {
   user-select: none;
 }
 
+.direction-ltr {
+  direction: ltr;
+}
+
 .toggle + .toggle-button:after, .toggle + .toggle-button:before {
   position: relative;
   display: block;
